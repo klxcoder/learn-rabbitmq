@@ -6,11 +6,11 @@ const args = process.argv.slice(2);
 const key = (args.length > 0) ? args[0] : 'anonymous.info';
 const msg = args.slice(1).join(' ') || 'Hello World!';
 
-amqp.connect('amqp://my-rabbit-server', function (error0, connection) {
+amqp.connect('amqp://my-rabbit-server', (error0, connection) => {
   if (error0) {
     throw error0;
   }
-  connection.createChannel(function (error1, channel) {
+  connection.createChannel((error1, channel) => {
     if (error1) {
       throw error1;
     }
@@ -23,7 +23,7 @@ amqp.connect('amqp://my-rabbit-server', function (error0, connection) {
     console.log(" [x] Sent %s: '%s'", key, msg);
   });
 
-  setTimeout(function () {
+  setTimeout(() => {
     connection.close();
     process.exit(0);
   }, 500);
