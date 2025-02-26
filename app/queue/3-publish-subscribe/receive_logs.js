@@ -1,37 +1,34 @@
 #!/usr/bin/env node
 
-const amqp = require('amqplib/callback_api');
+const amqp = require('amqplib');
 
-amqp.connect('amqp://my-rabbit-server', (error0, connection) => {
-  if (error0) {
-    throw error0;
-  }
-  connection.createChannel((error1, channel) => {
-    if (error1) {
-      throw error1;
-    }
+const receiveLogs = async () => {
+  try {
+    const connection = await amqp.connect('amqp://my-rabbit-server');
+    const channel = await connection.createChannel();
     const exchange = 'logs';
 
-    channel.assertExchange(exchange, 'fanout', {
+    await channel.assertExchange(exchange, 'fanout', {
       durable: false
     });
 
-    channel.assertQueue('', {
+    const q = await channel.assertQueue('', {
       exclusive: true
-    }, (error2, q) => {
-      if (error2) {
-        throw error2;
-      }
-      console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
-      channel.bindQueue(q.queue, exchange, '');
-
-      channel.consume(q.queue, (msg) => {
-        if (msg.content) {
-          console.log(" [x] %s", msg.content.toString());
-        }
-      }, {
-        noAck: true
-      });
     });
-  });
-});
+
+    console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
+    await channel.bindQueue(q.queue, exchange, '');
+
+    channel.consume(q.queue, (msg) => {
+      if (msg.content) {
+        console.log(" [x] %s", msg.content.toString());
+      }
+    }, {
+      noAck: true
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+receiveLogs();
