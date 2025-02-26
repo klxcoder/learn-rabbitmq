@@ -76,5 +76,14 @@ docker run -it --rm --network rabbitmq-network -v $(pwd)/app:/app -v /app/node_m
 ```
 
 # 6. RPC
+### Run `rpc_server.js`
+```
+docker run -it --rm --network rabbitmq-network -v $(pwd)/app:/app -v /app/node_modules -w /app my-rabbitmq-app node queue/6-rpc/rpc_server.js
+```
+
+### Run `rpc_client.js`
+```
+docker run -it --rm --network rabbitmq-network -v $(pwd)/app:/app -v /app/node_modules -w /app my-rabbitmq-app node queue/6-rpc/rpc_client.js 30
+```
 
 # 7. Publisher Confirms
