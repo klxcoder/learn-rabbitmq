@@ -87,3 +87,35 @@ docker run -it --rm --network rabbitmq-network -v $(pwd)/app:/app -v /app/node_m
 ```
 
 # 7. Publisher Confirms
+
+# Stream
+
+## Enable plugin `rabbitmq_stream`
+```
+docker exec my-rabbit-server rabbitmq-plugins enable rabbitmq_stream
+```
+
+## Make sure plugin `rabbitmq_stream` is enabled
+```
+docker exec my-rabbit-server rabbitmq-plugins list
+```
+
+## 1. "Hello World!"
+
+### Run ``
+```
+```
+
+### Run ``
+```
+```
+
+## 2. "Offset Tracking"
+
+### Run ``
+```
+```
+
+### Run ``
+```
+```
