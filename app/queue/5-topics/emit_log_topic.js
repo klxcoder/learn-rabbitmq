@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 
-var amqp = require('amqplib/callback_api');
+const amqp = require('amqplib/callback_api');
+
+const args = process.argv.slice(2);
+const key = (args.length > 0) ? args[0] : 'anonymous.info';
+const msg = args.slice(1).join(' ') || 'Hello World!';
 
 amqp.connect('amqp://my-rabbit-server', function (error0, connection) {
   if (error0) {
@@ -10,10 +14,7 @@ amqp.connect('amqp://my-rabbit-server', function (error0, connection) {
     if (error1) {
       throw error1;
     }
-    var exchange = 'topic_logs';
-    var args = process.argv.slice(2);
-    var key = (args.length > 0) ? args[0] : 'anonymous.info';
-    var msg = args.slice(1).join(' ') || 'Hello World!';
+    const exchange = 'topic_logs';
 
     channel.assertExchange(exchange, 'topic', {
       durable: false
