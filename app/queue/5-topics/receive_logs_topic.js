@@ -9,11 +9,11 @@ if (args.length == 0) {
   process.exit(1);
 }
 
-amqp.connect('amqp://my-rabbit-server', function (error0, connection) {
+amqp.connect('amqp://my-rabbit-server', (error0, connection) => {
   if (error0) {
     throw error0;
   }
-  connection.createChannel(function (error1, channel) {
+  connection.createChannel((error1, channel) => {
     if (error1) {
       throw error1;
     }
@@ -25,17 +25,17 @@ amqp.connect('amqp://my-rabbit-server', function (error0, connection) {
 
     channel.assertQueue('', {
       exclusive: true
-    }, function (error2, q) {
+    }, (error2, q) => {
       if (error2) {
         throw error2;
       }
       console.log(' [*] Waiting for logs. To exit press CTRL+C');
 
-      args.forEach(function (key) {
+      args.forEach((key) => {
         channel.bindQueue(q.queue, exchange, key);
       });
 
-      channel.consume(q.queue, function (msg) {
+      channel.consume(q.queue, (msg) => {
         console.log(" [x] %s:'%s'", msg.fields.routingKey, msg.content.toString());
       }, {
         noAck: true
