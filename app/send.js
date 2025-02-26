@@ -8,11 +8,14 @@ const sendMessage = async () => {
     const channel = await connection.createChannel();
 
     const queue = 'hello';
-    const msg = 'Hello World!';
 
     await channel.assertQueue(queue, {
       durable: false
     });
+
+    const args = process.argv.slice(2);
+    const msg = args[0] || 'Hello World!';
+
     channel.sendToQueue(queue, Buffer.from(msg));
 
     console.log(" [x] Sent %s", msg);
