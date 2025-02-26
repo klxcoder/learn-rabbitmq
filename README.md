@@ -15,7 +15,9 @@ docker network create rabbitmq-network
 docker run -d --hostname my-rabbit-hostname --name my-rabbit-server --network rabbitmq-network rabbitmq:4.0
 ```
 
-# 1. "Hello World!"
+# Queue
+
+## 1. "Hello World!"
 
 ### Run `receive.js`
 ```
@@ -52,6 +54,15 @@ docker run -it --rm --network rabbitmq-network -v $(pwd)/app:/app -v /app/node_m
 ```
 
 # 4. Routing
+### Run `receive_logs_direct.js`
+```
+docker run -it --rm --network rabbitmq-network -v $(pwd)/app:/app -v /app/node_modules -w /app my-rabbitmq-app node queue/4-routing/receive_logs_direct.js warning error
+```
+
+### Run `emit_log.js`
+```
+docker run -it --rm --network rabbitmq-network -v $(pwd)/app:/app -v /app/node_modules -w /app my-rabbitmq-app node queue/4-routing/emit_log_direct.js error "Run. Run. Or it will explode."
+```
 
 # 5. Topics
 
