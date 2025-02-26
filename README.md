@@ -65,6 +65,15 @@ docker run -it --rm --network rabbitmq-network -v $(pwd)/app:/app -v /app/node_m
 ```
 
 # 5. Topics
+### Run `receive_logs_topic.js`
+```
+docker run -it --rm --network rabbitmq-network -v $(pwd)/app:/app -v /app/node_modules -w /app my-rabbitmq-app node queue/5-topics/receive_logs_topic.js "*.critical"
+```
+
+### Run `emit_log.js`
+```
+docker run -it --rm --network rabbitmq-network -v $(pwd)/app:/app -v /app/node_modules -w /app my-rabbitmq-app node queue/5-topics/emit_log_topic.js "kern.critical" "A critical kernel error"
+```
 
 # 6. RPC
 
