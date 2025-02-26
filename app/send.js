@@ -14,7 +14,7 @@ const sendMessage = async () => {
     });
 
     const args = process.argv.slice(2);
-    const msg = args[0] || 'Hello World!';
+    const msg = args.join(' ') || 'Hello World!';
 
     // Send the message to the queue and wait for confirmation
     await new Promise((resolve, reject) => {
