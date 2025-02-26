@@ -15,10 +15,10 @@ docker run -d --hostname my-rabbit-hostname --name my-rabbit-server --network ra
 
 # Run `receive.js` in a container on the same network, mounting the `/app` folder
 ```
-docker run -it --rm --network rabbitmq-network -v $(pwd)/app:/app -v /app/node_modules -w /app my-rabbitmq-app node receive.js
+docker run -it --rm --network rabbitmq-network -v $(pwd)/app:/app -v /app/node_modules -w /app my-rabbitmq-app node 1-hello-world/receive.js
 ```
 
 # Run `send.js` in another container on the same network, mounting the /app folder
 ```
-docker run -it --rm --network rabbitmq-network -v $(pwd)/app:/app -v /app/node_modules -w /app my-rabbitmq-app node send.js
+docker run -it --rm --network rabbitmq-network -v $(pwd)/app:/app -v /app/node_modules -w /app my-rabbitmq-app node 1-hello-world/send.js
 ```
