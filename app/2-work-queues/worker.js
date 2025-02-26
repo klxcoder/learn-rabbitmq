@@ -19,7 +19,7 @@ const connect = async () => {
 
       console.log(" [x] Received %s", msg.content.toString());
       setTimeout(() => {
-        console.log(" [x] Done");
+        console.log(` [x] Done ${msg.content.toString()}`);
         channel.ack(msg);
       }, secs * 1000);
     }, {
