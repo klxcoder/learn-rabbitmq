@@ -1,30 +1,33 @@
 #!/usr/bin/env node
 
-const amqp = require('amqplib/callback_api');
+const amqp = require('amqplib');
 
 const args = process.argv.slice(2);
 const key = (args.length > 0) ? args[0] : 'anonymous.info';
 const msg = args.slice(1).join(' ') || 'Hello World!';
 
-amqp.connect('amqp://my-rabbit-server', (error0, connection) => {
-  if (error0) {
-    throw error0;
-  }
-  connection.createChannel((error1, channel) => {
-    if (error1) {
-      throw error1;
-    }
+async function emitLogTopic() {
+  try {
+    const connection = await amqp.connect('amqp://my-rabbit-server');
+    const channel = await connection.createChannel();
+
     const exchange = 'topic_logs';
 
-    channel.assertExchange(exchange, 'topic', {
+    await channel.assertExchange(exchange, 'topic', {
       durable: false
     });
-    channel.publish(exchange, key, Buffer.from(msg));
-    console.log(" [x] Sent %s: '%s'", key, msg);
-  });
 
-  setTimeout(() => {
-    connection.close();
-    process.exit(0);
-  }, 500);
-});
+    await channel.publish(exchange, key, Buffer.from(msg));
+
+    console.log(" [x] Sent %s: '%s'", key, msg);
+
+    setTimeout(() => {
+      connection.close();
+      process.exit(0);
+    }, 500);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+emitLogTopic();
