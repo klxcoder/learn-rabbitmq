@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 
-var amqp = require('amqplib/callback_api');
+const amqp = require('amqplib/callback_api');
 
-amqp.connect('amqp://my-rabbit-server', function (error0, connection) {
+amqp.connect('amqp://my-rabbit-server', (error0, connection) => {
   if (error0) {
     throw error0;
   }
-  connection.createChannel(function (error1, channel) {
+  connection.createChannel((error1, channel) => {
     if (error1) {
       throw error1;
     }
-    var exchange = 'logs';
+    const exchange = 'logs';
 
     channel.assertExchange(exchange, 'fanout', {
       durable: false
@@ -18,14 +18,14 @@ amqp.connect('amqp://my-rabbit-server', function (error0, connection) {
 
     channel.assertQueue('', {
       exclusive: true
-    }, function (error2, q) {
+    }, (error2, q) => {
       if (error2) {
         throw error2;
       }
       console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
       channel.bindQueue(q.queue, exchange, '');
 
-      channel.consume(q.queue, function (msg) {
+      channel.consume(q.queue, (msg) => {
         if (msg.content) {
           console.log(" [x] %s", msg.content.toString());
         }
