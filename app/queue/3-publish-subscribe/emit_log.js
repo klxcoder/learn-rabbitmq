@@ -1,17 +1,17 @@
 #!/usr/bin/env node
 
-var amqp = require('amqplib/callback_api');
+const amqp = require('amqplib/callback_api');
 
-amqp.connect('amqp://my-rabbit-server', function (error0, connection) {
+amqp.connect('amqp://my-rabbit-server', (error0, connection) => {
   if (error0) {
     throw error0;
   }
-  connection.createChannel(function (error1, channel) {
+  connection.createChannel((error1, channel) => {
     if (error1) {
       throw error1;
     }
-    var exchange = 'logs';
-    var msg = process.argv.slice(2).join(' ') || 'Hello World!';
+    const exchange = 'logs';
+    const msg = process.argv.slice(2).join(' ') || 'Hello World!';
 
     channel.assertExchange(exchange, 'fanout', {
       durable: false
@@ -20,7 +20,7 @@ amqp.connect('amqp://my-rabbit-server', function (error0, connection) {
     console.log(" [x] Sent %s", msg);
   });
 
-  setTimeout(function () {
+  setTimeout(() => {
     connection.close();
     process.exit(0);
   }, 500);
