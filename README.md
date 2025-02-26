@@ -26,3 +26,15 @@ docker run -it --rm --network rabbitmq-network -v $(pwd)/app:/app -v /app/node_m
 ```
 docker run -it --rm --network rabbitmq-network -v $(pwd)/app:/app -v /app/node_modules -w /app my-rabbitmq-app node 1-hello-world/send.js
 ```
+
+# 2. Work Queues
+
+### Run `worker.js`
+```
+docker run -it --rm --network rabbitmq-network -v $(pwd)/app:/app -v /app/node_modules -w /app my-rabbitmq-app node 2-work-queues/worker.js
+```
+
+### Run `new_task.js`
+```
+docker run -it --rm --network rabbitmq-network -v $(pwd)/app:/app -v /app/node_modules -w /app my-rabbitmq-app node 2-work-queues/new_task.js
+```
