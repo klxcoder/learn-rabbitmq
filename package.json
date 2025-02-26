@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "amqplib": "^0.10.5"
+    "amqplib": "^0.10.5",
+    "rabbitmq-stream-js-client": "^0.6.0"
   }
 }
