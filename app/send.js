@@ -5,7 +5,7 @@ const amqp = require('amqplib');
 const sendMessage = async () => {
   try {
     const connection = await amqp.connect('amqp://my-rabbit-server');
-    const channel = await connection.createChannel();
+    const channel = await connection.createConfirmChannel();
 
     const queue = 'hello';
 
@@ -16,14 +16,20 @@ const sendMessage = async () => {
     const args = process.argv.slice(2);
     const msg = args[0] || 'Hello World!';
 
-    channel.sendToQueue(queue, Buffer.from(msg));
+    // Send the message to the queue and wait for confirmation
+    await new Promise((resolve, reject) => {
+      channel.sendToQueue(queue, Buffer.from(msg), {}, (err, ok) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(ok);
+      });
+    });
 
     console.log(" [x] Sent %s", msg);
 
-    setTimeout(() => {
-      connection.close();
-      process.exit(0);
-    }, 500);
+    await channel.close();
+    await connection.close();
   } catch (error) {
     console.error('Error:', error);
   }

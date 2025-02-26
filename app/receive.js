@@ -20,8 +20,11 @@ const receiveMessages = async () => {
       // Example of an async operation
       await new Promise(resolve => setTimeout(resolve, 5000));
       console.log(" [x] Done processing %s", msg.content.toString());
+
+      // Acknowledge the message
+      channel.ack(msg);
     }, {
-      noAck: true
+      noAck: false
     });
   } catch (error) {
     console.error('Error:', error);
