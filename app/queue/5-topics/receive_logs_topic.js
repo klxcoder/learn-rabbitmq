@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-var amqp = require('amqplib/callback_api');
+const amqp = require('amqplib/callback_api');
 
-var args = process.argv.slice(2);
+const args = process.argv.slice(2);
 
 if (args.length == 0) {
   console.log("Usage: receive_logs_topic.js <facility>.<severity>");
@@ -17,7 +17,7 @@ amqp.connect('amqp://my-rabbit-server', function (error0, connection) {
     if (error1) {
       throw error1;
     }
-    var exchange = 'topic_logs';
+    const exchange = 'topic_logs';
 
     channel.assertExchange(exchange, 'topic', {
       durable: false
