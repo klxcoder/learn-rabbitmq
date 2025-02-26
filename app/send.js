@@ -10,7 +10,7 @@ const sendMessage = async () => {
     const queue = 'hello';
 
     await channel.assertQueue(queue, {
-      durable: false
+      durable: true,
     });
 
     const args = process.argv.slice(2);
@@ -18,7 +18,9 @@ const sendMessage = async () => {
 
     // Send the message to the queue and wait for confirmation
     await new Promise((resolve, reject) => {
-      channel.sendToQueue(queue, Buffer.from(msg), {}, (err, ok) => {
+      channel.sendToQueue(queue, Buffer.from(msg), {
+        persistent: true,
+      }, (err, ok) => {
         if (err) {
           return reject(err);
         }
