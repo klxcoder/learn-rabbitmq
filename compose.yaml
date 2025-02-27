@@ -9,3 +9,11 @@ services:
     networks:
       - rabbitmq-network
     restart: always
+  my-rabbitmq-app:
+    build: .
+    container_name: my-rabbitmq-app
+    networks:
+      - rabbitmq-network
+    depends_on:
+      - rabbitmq
+    command: tail -f /dev/null

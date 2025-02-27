@@ -1,8 +1,6 @@
-# Start RabbitMQ server
-
-### Build the Docker image
+# Start services
 ```
-docker build -t my-rabbitmq-app .
+docker compose up -d
 ```
 
 # Queue
