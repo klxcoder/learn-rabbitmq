@@ -3,14 +3,14 @@ networks:
 
 services:
   rabbitmq:
-    image: rabbitmq:4.0
+    build: ./rabbitmq
     hostname: my-rabbit-hostname
     container_name: my-rabbit-server
     networks:
       - rabbitmq-network
     restart: always
   my-rabbitmq-app:
-    build: .
+    build: ./app
     container_name: my-rabbitmq-app
     networks:
       - rabbitmq-network
