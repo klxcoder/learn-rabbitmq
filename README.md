@@ -102,12 +102,14 @@ docker exec my-rabbit-server rabbitmq-plugins list
 
 ## 1. "Hello World!"
 
-### Run ``
+### Run `receive.js`
 ```
+docker run -it --rm --network rabbitmq-network -v $(pwd)/app:/app -v /app/node_modules -w /app my-rabbitmq-app node stream/1-hello-world/receive.js
 ```
 
-### Run ``
+### Run `send.js`
 ```
+docker run -it --rm --network rabbitmq-network -v $(pwd)/app:/app -v /app/node_modules -w /app my-rabbitmq-app node stream/1-hello-world/send.js
 ```
 
 ## 2. "Offset Tracking"
