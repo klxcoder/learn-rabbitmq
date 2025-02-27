@@ -1,0 +1,11 @@
+networks:
+  rabbitmq-network: {}
+
+services:
+  rabbitmq:
+    image: rabbitmq:4.0
+    hostname: my-rabbit-hostname
+    container_name: my-rabbit-server
+    networks:
+      - rabbitmq-network
+    restart: always
